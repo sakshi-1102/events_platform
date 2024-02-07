@@ -2,7 +2,7 @@ import CategoryFilter from '@/components/shared/CategoryFilter';
 import Collection from '@/components/shared/Collection';
 import Search from '@/components/shared/Search';
 import { Button } from '@/components/ui/button';
-import { getAllEvents } from '@/lib/actions/event.actions';
+// import { getAllEvents } from '@/lib/actions/event.actions';
 import { SearchParamProps } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -65,7 +65,16 @@ export default async function Home({ searchParams }: SearchParamProps) {
   )
 }
 
-function getAllEvents(arg0: { query: string; category: string; page: number; limit: number; }) {
-  throw new Error('Function not implemented.');
+async function getAllEvents({ query, category, page, limit }: { query: string; category: string; page: number; limit: number; }) {
+  try {
+    // Perform API request to fetch events data
+    const response = await fetch(`mongodb+srv://11sakshiraut:Royal@1995@cluster0.dd4n3a8.mongodb.net/?retryWrites=true&w=majority=${page}&limit=${limit}&query=${query}&category=${category}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching events:', error);
+    return null; // or handle the error as needed
+  }
 }
+
 
